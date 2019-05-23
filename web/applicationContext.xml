@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-lazy-init="true">
+    <description>shiro 安全框架配置</description>
+
+<!--    <import resource="manager-servlet.xml"></import>-->
+
+    <!-- Shiro Filter -->
+    <!--    shiro配置过滤器
+   1、必须和web.xml文件中配置的保持名称一致
+   2、-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <property name="loginUrl" value="/views/pages/login.jsp"/>
+        <property name="successUrl" value="/index.jsp"/>
+        <!-- 不必设定successUrl,避免forward方式跳转，无法显示 数据，在Controller中直接redirect，可解决此问题-->
+        <!--<property name="successUrl" value="/admin/base_info" />-->
+        <property name="unauthorizedUrl" value="views/pages/404.jsp"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /views/pages/login.jsp = anon
+                /index.jsp = anon
+                /#/tables/** = authc
+            </value>
+        </property>
+<!--        <property name="filters">-->
+<!--            <map>-->
+<!--                <entry key="authc" value-ref="permissionFilter"></entry>-->
+<!--            </map>-->
+<!--        </property>-->
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="jdbcRealm"></property>
+    </bean>
+
+    <!--    网咯方面-->
+    <bean id="secureRemoteInvocationExecutor" class="org.apache.shiro.spring.remoting.SecureRemoteInvocationExecutor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <bean id="jdbcRealm" class="com.xhh.bean.shiroRealm"/>
+
+<!--    <bean id="weChatRealm" class="com.web.app.wx.manager.realm.WeChatRealm">-->
+<!--        <property name="adminService" ref="adminService"></property>-->
+<!--    </bean>-->
+
+
+    <!-- 用户授权信息Cache, 采用EhCache -->
+    <!--    我们可以使用的缓存框架
+    需要说明相应的配置文件的位置-->
+    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>
+    </bean>
+
+<!--    <bean id="permissionFilter" class="com.web.app.wx.manager.filter.PermissionsAuthorizationFilter"></bean>-->
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <!--    管理当前实例shiro的生命周期
+    必须用这样一个对象来管理shiro常见对象-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!--    安全管理器bean
+        1、 缓存技术，缓存管理
+        2、 获取处理数据-->
+<!--    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">-->
+<!--        &lt;!&ndash; 使用下面配置的缓存管理器 &ndash;&gt;-->
+<!--        <property name="cacheManager" ref="shiroEhcacheManager"/>-->
+<!--        &lt;!&ndash; ref对应我们写的realm  MyShiro &ndash;&gt;-->
+<!--        <property name="realm" ref="jdbcRealm"/>-->
+<!--    </bean>-->
+
+<!--    <bean id="jdbcRealm" class="com.xhh.bean.shiroRealm"/>-->
+</beans>
