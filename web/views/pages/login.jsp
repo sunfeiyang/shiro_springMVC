@@ -2,11 +2,11 @@
 
 	<div class="auth-container">
 		<!-- site logo -->
-		<h1 class="site-logo h2 mb15"><a href="/"><span>App</span>&nbsp;Board</a></h1>
+		<h1 class="site-logo h2 mb15"><a href="#/index"><span>App</span>&nbsp;Board</a></h1>
 		<h3 class="text-normal h4 text-center">Sign in to your account</h3>
 
 		<div class="form-container">
-			<form class="form-horizontal" action="/">
+			<form class="form-horizontal" action="#/index">
 				<div class="form-group form-group-lg">
 					<input class="form-control" type="text" placeholder="Username">
 				</div>

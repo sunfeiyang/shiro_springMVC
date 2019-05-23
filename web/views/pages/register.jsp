@@ -6,7 +6,7 @@
 
 		<div class="form-container">
 			<p class="small">Already have an account. <a href="#/pages/login">Sign in Now.</a></p>
-			<form class="form-horizontal" action="/">
+			<form class="form-horizontal" action="#/index">
 				<div class="row">
 					<div class="form-group form-group-lg col-lg-6">
 						<input class="form-control" type="text" placeholder="First Name">

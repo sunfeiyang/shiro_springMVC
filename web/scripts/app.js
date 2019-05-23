@@ -17,7 +17,9 @@
         routes.forEach(function (route) {
             setRoutes(route)
         }), $routeProvider.when("/", {
-            redirectTo: "/dashboard"
+            redirectTo: "/pages/login"
+        }), $routeProvider.when("/index", {
+            redirectTo: "dashboard"
         }).when("/404", {
             templateUrl: "views/pages/404.jsp"
         }).otherwise({
